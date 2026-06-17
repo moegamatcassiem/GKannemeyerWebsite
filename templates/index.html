@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ content.business_name }} | {{ content.tagline }}</title>
+  <meta name="description" content="{{ content.hero_subheading }}">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script>document.documentElement.classList.add('js-enabled');</script>
+</head>
+<body>
+
+{% import "macros.html" as macros %}
+
+{% include "_nav.html" %}
+
+<!-- ============================= HERO ============================= -->
+<header class="hero">
+  <div class="container">
+    <span class="eyebrow">{{ content.hero_eyebrow }}</span>
+    <h1 class="hero-heading">{{ content.hero_heading }}</h1>
+    <p class="hero-subheading">{{ content.hero_subheading }}</p>
+
+    <div class="hero-actions">
+      <a href="#contact" class="btn">{{ content.hero_cta }}</a>
+      <a href="#gallery" class="btn btn-outline">See Our Work</a>
+    </div>
+
+    <div class="hero-meta">
+      <div class="hero-meta-item"><strong>{{ content.years_in_business }}+</strong><span>Years in Business</span></div>
+      <div class="hero-meta-item"><strong>100%</strong><span>Custom Built</span></div>
+      <div class="hero-meta-item"><strong>{{ content.location_short }}</strong></div>
+    </div>
+  </div>
+</header>
+
+{{ macros.joinery_divider("dark-to-light") }}
+
+<!-- ============================= ABOUT ============================= -->
+<section id="about" class="section-light">
+  <div class="container">
+    <div class="about-grid">
+      <div class="reveal">
+        <span class="eyebrow eyebrow-on-light">{{ content.about_eyebrow }}</span>
+        <h2 class="section-head" style="margin-bottom: 1.5rem;">{{ content.about_heading }}</h2>
+        <div class="about-body">
+          <p>{{ content.about_body }}</p>
+        </div>
+      </div>
+
+      <div class="owner-card reveal">
+        <blockquote>&ldquo;{{ content.owner_quote }}&rdquo;</blockquote>
+        <span class="owner-name">{{ content.owner_name }} &middot; {{ content.owner_title }}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= SERVICES ============================= -->
+<section id="services" class="section-dark">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">{{ content.services_eyebrow }}</span>
+      <h2>{{ content.services_heading }}</h2>
+    </div>
+
+    <div class="services-grid">
+      {% for service in content.services %}
+      <div class="service-card reveal">
+        {{ macros.tool_icon(service.icon) }}
+        <h3>{{ service.title }}</h3>
+        <p>{{ service.description }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ============================= PROCESS ============================= -->
+<section id="process" class="section-light">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow eyebrow-on-light">{{ content.process_eyebrow }}</span>
+      <h2>{{ content.process_heading }}</h2>
+    </div>
+
+    <div class="process-rail">
+      {% for step in content.process_steps %}
+      <div class="process-step reveal">
+        <span class="step-number">{{ step.number }}</span>
+        <h3>{{ step.title }}</h3>
+        <p>{{ step.description }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ============================= GALLERY ============================= -->
+<section id="gallery" class="section-dark">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">{{ content.gallery_eyebrow }}</span>
+      <h2>{{ content.gallery_heading }}</h2>
+    </div>
+
+    <div class="gallery-filters reveal">
+      <button class="filter-btn is-active" data-filter="all">All</button>
+      {% for category in content.gallery_items | map(attribute='category') | unique %}
+      <button class="filter-btn" data-filter="{{ category }}">{{ category }}</button>
+      {% endfor %}
+    </div>
+
+    <div class="gallery-grid">
+      {% for item in content.gallery_items %}
+      <div class="gallery-item reveal" data-category="{{ item.category }}">
+        <img src="{{ item.image }}" alt="{{ item.title }}" loading="lazy">
+        <div class="gallery-caption">
+          <span class="gallery-title">{{ item.title }}</span>
+          <span class="gallery-category">{{ item.category }}</span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ============================= TESTIMONIALS ============================= -->
+<section id="testimonials" class="section-light">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow eyebrow-on-light">{{ content.testimonials_eyebrow }}</span>
+      <h2>{{ content.testimonials_heading }}</h2>
+    </div>
+
+    <div class="testimonials-grid">
+      {% for t in content.testimonials %}
+      <div class="testimonial-card reveal">
+        <span class="testimonial-mark">&ldquo;</span>
+        <p class="quote">{{ t.quote }}</p>
+        <div class="testimonial-author">{{ t.author }} &middot; {{ t.project }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{{ macros.joinery_divider("light-to-dark") }}
+
+<!-- ============================= CONTACT ============================= -->
+<section id="contact" class="section-dark">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="reveal">
+        <span class="eyebrow">{{ content.contact_eyebrow }}</span>
+        <h2 style="font-size: clamp(1.8rem, 3.6vw, 2.4rem); margin-bottom: 1rem;">{{ content.contact_heading }}</h2>
+        <p style="color: var(--color-text-muted-on-dark); margin-bottom: 2rem;">{{ content.contact_subheading }}</p>
+
+        <div class="contact-info-item">
+          <span class="label">Phone</span>
+          <span class="value">{{ content.phone }}</span>
+        </div>
+        <div class="contact-info-item">
+          <span class="label">Email</span>
+          <span class="value">{{ content.email }}</span>
+        </div>
+        <div class="contact-info-item">
+          <span class="label">Based In</span>
+          <span class="value">{{ content.address }}</span>
+        </div>
+      </div>
+
+      <div class="reveal">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+          <div class="flash-messages">
+            {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+          </div>
+          {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('contact') }}" method="POST">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="phone">Phone (optional)</label>
+              <input type="tel" id="phone" name="phone">
+            </div>
+            <div class="form-group">
+              <label for="project_type">Project Type</label>
+              <select id="project_type" name="project_type">
+                {% for type in content.project_types %}
+                <option value="{{ type }}">{{ type }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Tell us about your project</label>
+            <textarea id="message" name="message" required></textarea>
+          </div>
+
+          <button type="submit" class="btn">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% include "_footer.html" %}
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

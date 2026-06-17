@@ -1,0 +1,26 @@
+<nav class="nav">
+  <div class="container">
+    <a href="#" class="nav-brand">{{ content.business_name }}</a>
+
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#testimonials">Reviews</a></li>
+    </ul>
+
+    <a href="#contact" class="nav-cta nav-cta-desktop">{{ content.hero_cta }}</a>
+
+    <button class="nav-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="nav-mobile-panel">
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#testimonials">Reviews</a>
+    <a href="#contact">{{ content.hero_cta }}</a>
+  </div>
+</nav>
