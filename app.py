@@ -19,7 +19,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from content import CONTENT
 
 app = Flask(__name__)
-app.secret_key = "dev-secret-key-change-this-before-deploying"  # used only to sign flash messages
+app.secret_key = os.environ.get("SECRET_KEY", "dev-secret-key-change-this-before-deploying")
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 SUBMISSIONS_FILE = os.path.join(DATA_DIR, "submissions.csv")
