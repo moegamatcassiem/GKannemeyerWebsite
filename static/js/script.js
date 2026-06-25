@@ -16,19 +16,40 @@ if (navToggle && nav) {
 // Gallery filtering
 const filterButtons = document.querySelectorAll(".filter-btn");
 const galleryItems = document.querySelectorAll(".gallery-item");
+const showMoreBtn = document.getElementById("show-more-btn");
+let visibleCount = 6; // initial number of visible items
+
+function updateGallery() {
+  const activeFilter = document.querySelector(".filter-btn.is-active");
+  const category = activeFilter ? activeFilter.dataset.filter : "all";
+  let matchCount = 0;
+
+  galleryItems.forEach((item) => {
+    const matches = category === "all" || item.dataset.category === category;
+    if (matches) {
+      matchCount++;
+      item.classList.toggle("is-hidden", matchCount > visibleCount);
+    } else {
+      item.classList.add("is-hidden");
+    }
+  });
+
+  showMoreBtn.style.display = matchCount > visibleCount ? "block" : "none";
+}
 
 filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    const category = button.dataset.filter;
-
     filterButtons.forEach((b) => b.classList.remove("is-active"));
     button.classList.add("is-active");
+    visibleCount = 6; // reset visible count when changing filter
 
-    galleryItems.forEach((item) => {
-      const matches = category === "all" || item.dataset.category === category;
-      item.classList.toggle("is-hidden", !matches);
-    });
+    updateGallery();
   });
+});
+
+showMoreBtn.addEventListener("click", () => {
+  visibleCount += 6;
+  updateGallery();
 });
 
 // Subtle scroll reveal
@@ -52,3 +73,5 @@ if ("IntersectionObserver" in window && revealEls.length) {
   // fallback: just show everything
   revealEls.forEach((el) => el.classList.add("is-visible"));
 }
+
+updateGallery();

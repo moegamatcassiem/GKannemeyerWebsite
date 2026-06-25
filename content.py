@@ -15,11 +15,13 @@ CONTENT = {
     # ---- Brand basics ----
     "business_name": "G.Kannemeyer Interior Design",
     "tagline": "Custom Cabinetry & Home Renovations",
-    "location_short": "Serving [City, Region]",
-    "phone": "(555) 555-5555",
-    "email": "hello@example.com",
-    "address": "123 Workshop Lane, [City, State]",
-    "years_in_business": 15,
+    "location_short": "Cape Town",
+    "phone": "(+27) 83 274 0753",
+    "whatsapp": "(+27) 64 118 3305",
+    "email": "Ghiyaathk@yahoo.com",
+    "alt_email": "Gckannemeyer92@gmail.com ",
+    "address": "Retreat, Cape Town,",
+    "years_in_business": 25,
     "instagram_url": "#",
     "facebook_url": "#",
 
@@ -118,34 +120,128 @@ CONTENT = {
     "gallery_heading": "A few projects from the shop floor.",
     "gallery_items": [
         {
-            "title": "Oak Kitchen Remodel",
             "category": "Kitchens",
-            "image": "/static/images/gallery/placeholder-1.svg",
+            "image": "/static/images/gallery/Kitchen/Kitchen.jpeg",
         },
         {
-            "title": "Walnut Built-In Bookshelf",
             "category": "Built-Ins",
-            "image": "/static/images/gallery/placeholder-2.svg",
+            "image": "/static/images/gallery/built-in/builtin (2).jpeg",
         },
         {
-            "title": "Maple Vanity & Storage",
             "category": "Cabinetry",
-            "image": "/static/images/gallery/placeholder-3.svg",
+            "image": "/static/images/gallery/cabinet/Cabinet.jpeg",
         },
         {
-            "title": "Mudroom Bench & Lockers",
+            "category": "Kitchens",
+            "image": "/static/images/gallery/Kitchen/kitchen (3).jpeg",
+        },
+        {
+            "category": "Cabinetry",
+            "image": "/static/images/gallery/cabinet/Cabinet (2).jpeg",
+        },
+        {
+            "category": "Kitchens",
+            "image": "/static/images/gallery/Kitchen/kitchen (5).jpeg",
+        },
+        {
+            "category": "Kitchens",
+            "image": "/static/images/gallery/Kitchen/kitchen (6).jpeg",
+        },
+        {
+            "category": "Kitchens",
+            "image": "/static/images/gallery/Kitchen/kitchen (7).jpeg",
+        },
+        {
+            "category": "Kitchens",
+            "image": "/static/images/gallery/Kitchen/kitchen (8).jpeg",
+        },
+        {
+            "category": "Kitchens",
+            "image": "/static/images/gallery/Kitchen/kitchen (10).jpeg",
+        },
+        {
+            "category": "Kitchens",
+            "image": "/static/images/gallery/Kitchen/kitchen (21).jpeg",
+        },
+        {
+            "category": "Kitchens",
+            "image": "/static/images/gallery/Kitchen/kitchen (22).jpeg",
+        },
+        {
+            "category": "Kitchens",
+            "image": "/static/images/gallery/Kitchen/kitchen (23).jpeg",
+        },
+        {
+            "category": "Kitchens",
+            "image": "/static/images/gallery/Kitchen/kitchen (24).jpeg",
+        },
+        {
             "category": "Built-Ins",
-            "image": "/static/images/gallery/placeholder-4.svg",
+            "image": "/static/images/gallery/built-in/built-in (3).jpeg",
         },
         {
-            "title": "Full Kitchen Renovation",
-            "category": "Renovations",
-            "image": "/static/images/gallery/placeholder-5.svg",
+            "category": "Built-Ins",
+            "image": "/static/images/gallery/built-in/built-in (4).jpeg",
         },
         {
-            "title": "Cherry Wood Pantry Cabinets",
+            "category": "Built-Ins",
+            "image": "/static/images/gallery/built-in/built-in (6).jpeg",
+        },
+        {
+            "category": "Built-Ins",
+            "image": "/static/images/gallery/built-in/built-in (8).jpeg",
+        },
+        {
+            "category": "Built-Ins",
+            "image": "/static/images/gallery/built-in/built-in (12).jpeg",
+        },
+        {
+            "category": "Built-Ins",
+            "image": "/static/images/gallery/built-in/built-in (13).jpeg",
+        },
+        {
+            "category": "Built-Ins",
+            "image": "/static/images/gallery/built-in/built-in (14).jpeg",
+        },
+        {
+            "category": "Built-Ins",
+            "image": "/static/images/gallery/built-in/built-in (16).jpeg",
+        },
+        {
+            "category": "Built-Ins",
+            "image": "/static/images/gallery/built-in/built-in (19).jpeg",
+        },
+        {
+            "category": "Built-Ins",
+            "image": "/static/images/gallery/built-in/built-in (20).jpeg",
+        },
+        {
+            "category": "Built-Ins",
+            "image": "/static/images/gallery/built-in/built-in (23).jpeg",
+        },
+        {
+            "category": "Built-Ins",
+            "image": "/static/images/gallery/built-in/built-in (24).jpeg",
+        },
+        {
+            "category": "Built-Ins",
+            "image": "/static/images/gallery/built-in/built-in (25).jpeg",
+        },
+        {
+            "category": "Built-Ins",
+            "image": "/static/images/gallery/built-in/builtin (3).jpeg",
+        },
+        {
+            "category": "Built-Ins",
+            "image": "/static/images/gallery/built-in/builtin (4).jpeg",
+        },
+        {
+            "category": "Built-Ins",
+            "image": "/static/images/gallery/built-in/builtin (5).jpeg",
+        },
+        {
             "category": "Cabinetry",
-            "image": "/static/images/gallery/placeholder-6.svg",
+            "image": "/static/images/gallery/cabinet/cabinet (3).jpeg",
         },
     ],
 
