@@ -17,6 +17,10 @@ if (navToggle && nav) {
 const filterButtons = document.querySelectorAll(".filter-btn");
 const galleryItems = document.querySelectorAll(".gallery-item");
 const showMoreBtn = document.getElementById("show-more-btn");
+const overlay = document.querySelector("#lightbox-overlay");
+const lightboxImg = document.querySelector("#lightbox-img");
+const closeBtn = document.querySelector("#lightbox-close");
+
 let visibleCount = 6; // initial number of visible items
 
 function updateGallery() {
@@ -45,6 +49,32 @@ filterButtons.forEach((button) => {
 
     updateGallery();
   });
+});
+
+galleryItems.forEach((item) => {
+  item.addEventListener("click", () => {
+    const img = item.querySelector("img");
+    if (img) {
+      lightboxImg.src = img.src;
+      overlay.classList.add("is-active");
+    }
+  });
+});
+
+closeBtn.addEventListener("click", () => {
+  overlay.classList.remove("is-active");
+});
+
+overlay.addEventListener("click", (e) => {
+  if (e.target === overlay) {
+    overlay.classList.remove("is-active");
+  }
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    overlay.classList.remove("is-active");
+  }
 });
 
 showMoreBtn.addEventListener("click", () => {

@@ -230,7 +230,10 @@
 </section>
 
 {% include "_footer.html" %}
-
+<div id="lightbox-overlay">
+  <button id="lightbox-close">×</button>
+  <img id="lightbox-img" src="" alt="Expanded view" />
+</div>
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
