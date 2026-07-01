@@ -121,7 +121,7 @@ CONTENT = {
     "gallery_items": [
         {
             "category": "Kitchens",
-            "image": "/static/images/gallery/Kitchen/Kitchen.png",
+            "image": "/static/images/gallery/Kitchen/kitchen (3).png",
         },
         {
             "category": "Built-Ins",
@@ -133,11 +133,11 @@ CONTENT = {
         },
         {
             "category": "Kitchens",
-            "image": "/static/images/gallery/Kitchen/kitchen (3).png",
+            "image": "/static/images/gallery/Kitchen/Kitchen.png",
         },
         {
             "category": "Cabinetry",
-            "image": "/static/images/gallery/cabinet/Cabinet (2).png",
+            "image": "/static/images/gallery/cabinet/cabinet (2).png",
         },
         {
             "category": "Kitchens",
