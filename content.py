@@ -121,127 +121,127 @@ CONTENT = {
     "gallery_items": [
         {
             "category": "Kitchens",
-            "image": "/static/images/gallery/Kitchen/Kitchen.jpeg",
+            "image": "/static/images/gallery/Kitchen/Kitchen.png",
         },
         {
             "category": "Built-Ins",
-            "image": "/static/images/gallery/built-in/builtin (2).jpeg",
+            "image": "/static/images/gallery/built-in/builtin (2).png",
         },
         {
             "category": "Cabinetry",
-            "image": "/static/images/gallery/cabinet/Cabinet.jpeg",
+            "image": "/static/images/gallery/cabinet/Cabinet.png",
         },
         {
             "category": "Kitchens",
-            "image": "/static/images/gallery/Kitchen/kitchen (3).jpeg",
+            "image": "/static/images/gallery/Kitchen/kitchen (3).png",
         },
         {
             "category": "Cabinetry",
-            "image": "/static/images/gallery/cabinet/Cabinet (2).jpeg",
+            "image": "/static/images/gallery/cabinet/Cabinet (2).png",
         },
         {
             "category": "Kitchens",
-            "image": "/static/images/gallery/Kitchen/kitchen (5).jpeg",
+            "image": "/static/images/gallery/Kitchen/kitchen (5).png",
         },
         {
             "category": "Kitchens",
-            "image": "/static/images/gallery/Kitchen/kitchen (6).jpeg",
+            "image": "/static/images/gallery/Kitchen/kitchen (6).png",
         },
         {
             "category": "Kitchens",
-            "image": "/static/images/gallery/Kitchen/kitchen (7).jpeg",
+            "image": "/static/images/gallery/Kitchen/kitchen (7).png",
         },
         {
             "category": "Kitchens",
-            "image": "/static/images/gallery/Kitchen/kitchen (8).jpeg",
+            "image": "/static/images/gallery/Kitchen/kitchen (8).png",
         },
         {
             "category": "Kitchens",
-            "image": "/static/images/gallery/Kitchen/kitchen (10).jpeg",
+            "image": "/static/images/gallery/Kitchen/kitchen (10).png",
         },
         {
             "category": "Kitchens",
-            "image": "/static/images/gallery/Kitchen/kitchen (21).jpeg",
+            "image": "/static/images/gallery/Kitchen/kitchen (21).png",
         },
         {
             "category": "Kitchens",
-            "image": "/static/images/gallery/Kitchen/kitchen (22).jpeg",
+            "image": "/static/images/gallery/Kitchen/kitchen (22).png",
         },
         {
             "category": "Kitchens",
-            "image": "/static/images/gallery/Kitchen/kitchen (23).jpeg",
+            "image": "/static/images/gallery/Kitchen/kitchen (23).png",
         },
         {
             "category": "Kitchens",
-            "image": "/static/images/gallery/Kitchen/kitchen (24).jpeg",
+            "image": "/static/images/gallery/Kitchen/kitchen (24).png",
         },
         {
             "category": "Built-Ins",
-            "image": "/static/images/gallery/built-in/built-in (3).jpeg",
+            "image": "/static/images/gallery/built-in/built-in (3).png",
         },
         {
             "category": "Built-Ins",
-            "image": "/static/images/gallery/built-in/built-in (4).jpeg",
+            "image": "/static/images/gallery/built-in/built-in (4).png",
         },
         {
             "category": "Built-Ins",
-            "image": "/static/images/gallery/built-in/built-in (6).jpeg",
+            "image": "/static/images/gallery/built-in/built-in (6).png",
         },
         {
             "category": "Built-Ins",
-            "image": "/static/images/gallery/built-in/built-in (8).jpeg",
+            "image": "/static/images/gallery/built-in/built-in (8).png",
         },
         {
             "category": "Built-Ins",
-            "image": "/static/images/gallery/built-in/built-in (12).jpeg",
+            "image": "/static/images/gallery/built-in/built-in (12).png",
         },
         {
             "category": "Built-Ins",
-            "image": "/static/images/gallery/built-in/built-in (13).jpeg",
+            "image": "/static/images/gallery/built-in/built-in (13).png",
         },
         {
             "category": "Built-Ins",
-            "image": "/static/images/gallery/built-in/built-in (14).jpeg",
+            "image": "/static/images/gallery/built-in/built-in (14).png",
         },
         {
             "category": "Built-Ins",
-            "image": "/static/images/gallery/built-in/built-in (16).jpeg",
+            "image": "/static/images/gallery/built-in/built-in (16).png",
         },
         {
             "category": "Built-Ins",
-            "image": "/static/images/gallery/built-in/built-in (19).jpeg",
+            "image": "/static/images/gallery/built-in/built-in (19).png",
         },
         {
             "category": "Built-Ins",
-            "image": "/static/images/gallery/built-in/built-in (20).jpeg",
+            "image": "/static/images/gallery/built-in/built-in (20).png",
         },
         {
             "category": "Built-Ins",
-            "image": "/static/images/gallery/built-in/built-in (23).jpeg",
+            "image": "/static/images/gallery/built-in/built-in (23).png",
         },
         {
             "category": "Built-Ins",
-            "image": "/static/images/gallery/built-in/built-in (24).jpeg",
+            "image": "/static/images/gallery/built-in/built-in (24).png",
         },
         {
             "category": "Built-Ins",
-            "image": "/static/images/gallery/built-in/built-in (25).jpeg",
+            "image": "/static/images/gallery/built-in/built-in (25).png",
         },
         {
             "category": "Built-Ins",
-            "image": "/static/images/gallery/built-in/builtin (3).jpeg",
+            "image": "/static/images/gallery/built-in/builtin (3).png",
         },
         {
             "category": "Built-Ins",
-            "image": "/static/images/gallery/built-in/builtin (4).jpeg",
+            "image": "/static/images/gallery/built-in/builtin (4).png",
         },
         {
             "category": "Built-Ins",
-            "image": "/static/images/gallery/built-in/builtin (5).jpeg",
+            "image": "/static/images/gallery/built-in/builtin (5).png",
         },
         {
             "category": "Cabinetry",
-            "image": "/static/images/gallery/cabinet/cabinet (3).jpeg",
+            "image": "/static/images/gallery/cabinet/cabinet (3).png",
         },
     ],
 
