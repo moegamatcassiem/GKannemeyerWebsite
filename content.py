@@ -18,12 +18,10 @@ CONTENT = {
     "location_short": "Cape Town",
     "phone": "(+27) 83 274 0753",
     "whatsapp": "(+27) 64 118 3305",
-    "email": "Ghiyaathk@yahoo.com",
-    "alt_email": "Gckannemeyer92@gmail.com ",
+    "email": "isaacscassiem2003@gmail.com",
+    "alt_email": "dallascassiem704@gmail.com",
     "address": "Retreat, Cape Town,",
     "years_in_business": 25,
-    "instagram_url": "#",
-    "facebook_url": "#",
 
     # ---- Hero section ----
     "hero_eyebrow": "Custom Cabinetry  ·  Kitchens  ·  Built-Ins  ·  Full Renovations",
@@ -120,144 +118,159 @@ CONTENT = {
     "gallery_heading": "A few projects from the shop floor.",
     "gallery_items": [
         {
+            "title": "Custom Kitchen Renovation",
             "category": "Kitchens",
             "image": "/static/images/gallery/Kitchen/kitchen (3).png",
         },
         {
+            "title": "Fitted Built-In Storage",
             "category": "Built-Ins",
             "image": "/static/images/gallery/built-in/builtin (2).png",
         },
         {
+            "title": "Custom Cabinetry Detail",
             "category": "Cabinetry",
             "image": "/static/images/gallery/cabinet/Cabinet.png",
         },
         {
+            "title": "Modern Kitchen Cabinetry",
             "category": "Kitchens",
             "image": "/static/images/gallery/Kitchen/Kitchen.png",
         },
         {
+            "title": "Handcrafted Cabinet Build",
             "category": "Cabinetry",
             "image": "/static/images/gallery/cabinet/cabinet (2).png",
         },
         {
+            "title": "Kitchen Island & Storage",
             "category": "Kitchens",
             "image": "/static/images/gallery/Kitchen/kitchen (5).png",
         },
         {
+            "title": "Full Kitchen Remodel",
             "category": "Kitchens",
             "image": "/static/images/gallery/Kitchen/kitchen (6).png",
         },
         {
+            "title": "Custom Kitchen Cabinets",
             "category": "Kitchens",
             "image": "/static/images/gallery/Kitchen/kitchen (7).png",
         },
         {
+            "title": "Contemporary Kitchen Build",
             "category": "Kitchens",
             "image": "/static/images/gallery/Kitchen/kitchen (8).png",
         },
         {
+            "title": "Custom Kitchen Renovation",
             "category": "Kitchens",
             "image": "/static/images/gallery/Kitchen/kitchen (10).png",
         },
         {
+            "title": "Modern Kitchen Cabinetry",
             "category": "Kitchens",
             "image": "/static/images/gallery/Kitchen/kitchen (21).png",
         },
         {
+            "title": "Kitchen Island & Storage",
             "category": "Kitchens",
             "image": "/static/images/gallery/Kitchen/kitchen (22).png",
         },
         {
+            "title": "Full Kitchen Remodel",
             "category": "Kitchens",
             "image": "/static/images/gallery/Kitchen/kitchen (23).png",
         },
         {
+            "title": "Custom Kitchen Cabinets",
             "category": "Kitchens",
             "image": "/static/images/gallery/Kitchen/kitchen (24).png",
         },
         {
+            "title": "Custom Built-In Shelving",
             "category": "Built-Ins",
             "image": "/static/images/gallery/built-in/built-in (3).png",
         },
         {
+            "title": "Custom Millwork",
             "category": "Built-Ins",
             "image": "/static/images/gallery/built-in/built-in (4).png",
         },
         {
+            "title": "Built-In Window Seat",
             "category": "Built-Ins",
             "image": "/static/images/gallery/built-in/built-in (6).png",
         },
         {
+            "title": "Custom Bookshelf Build",
             "category": "Built-Ins",
             "image": "/static/images/gallery/built-in/built-in (8).png",
         },
         {
+            "title": "Fitted Cabinetry Detail",
             "category": "Built-Ins",
             "image": "/static/images/gallery/built-in/built-in (12).png",
         },
         {
+            "title": "Fitted Built-In Storage",
             "category": "Built-Ins",
             "image": "/static/images/gallery/built-in/built-in (13).png",
         },
         {
+            "title": "Custom Built-In Shelving",
             "category": "Built-Ins",
             "image": "/static/images/gallery/built-in/built-in (14).png",
         },
         {
+            "title": "Custom Millwork",
             "category": "Built-Ins",
             "image": "/static/images/gallery/built-in/built-in (16).png",
         },
         {
+            "title": "Built-In Window Seat",
             "category": "Built-Ins",
             "image": "/static/images/gallery/built-in/built-in (19).png",
         },
         {
+            "title": "Custom Bookshelf Build",
             "category": "Built-Ins",
             "image": "/static/images/gallery/built-in/built-in (20).png",
         },
         {
+            "title": "Fitted Cabinetry Detail",
             "category": "Built-Ins",
             "image": "/static/images/gallery/built-in/built-in (23).png",
         },
         {
+            "title": "Fitted Built-In Storage",
             "category": "Built-Ins",
             "image": "/static/images/gallery/built-in/built-in (24).png",
         },
         {
+            "title": "Custom Built-In Shelving",
             "category": "Built-Ins",
             "image": "/static/images/gallery/built-in/built-in (25).png",
         },
         {
+            "title": "Custom Millwork",
             "category": "Built-Ins",
             "image": "/static/images/gallery/built-in/builtin (3).png",
         },
         {
+            "title": "Built-In Window Seat",
             "category": "Built-Ins",
             "image": "/static/images/gallery/built-in/builtin (4).png",
         },
         {
+            "title": "Custom Bookshelf Build",
             "category": "Built-Ins",
             "image": "/static/images/gallery/built-in/builtin (5).png",
         },
         {
+            "title": "Custom Storage Cabinetry",
             "category": "Cabinetry",
             "image": "/static/images/gallery/cabinet/cabinet (3).png",
-        },
-    ],
-
-    # ---- Testimonials ----
-    "testimonials_eyebrow": "From Past Clients",
-    "testimonials_heading": "What it's like to work with us.",
-    "testimonials": [
-        {
-            "quote": "Replace this with a real quote from a happy client once you have one.",
-            "author": "[Client Name]",
-            "project": "Kitchen Renovation",
-        },
-        {
-            "quote": "Replace this with a real quote from a happy client once you have one.",
-            "author": "[Client Name]",
-            "project": "Custom Built-Ins",
         },
     ],
 

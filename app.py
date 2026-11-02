@@ -14,12 +14,30 @@ import os
 import re
 from datetime import datetime
 
+from dotenv import load_dotenv
 from flask import Flask, render_template, request, redirect, url_for, flash
+from flask_mail import Mail, Message
 
 from content import CONTENT
 
+load_dotenv()  # reads a local .env file, if present, into os.environ
+
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "dev-secret-key-change-this-before-deploying")
+
+# --- Email delivery config (see .env.example) ---
+# These are read from environment variables so no real credentials ever
+# live in the code. If MAIL_USERNAME/CONTACT_RECIPIENT_EMAIL aren't set,
+# the contact form just skips sending an email and keeps saving to CSV.
+app.config["MAIL_SERVER"] = os.environ.get("MAIL_SERVER", "smtp.gmail.com")
+app.config["MAIL_PORT"] = int(os.environ.get("MAIL_PORT", 587))
+app.config["MAIL_USE_TLS"] = os.environ.get("MAIL_USE_TLS", "true").lower() == "true"
+app.config["MAIL_USERNAME"] = os.environ.get("MAIL_USERNAME")
+app.config["MAIL_PASSWORD"] = os.environ.get("MAIL_PASSWORD")
+app.config["MAIL_DEFAULT_SENDER"] = os.environ.get("MAIL_DEFAULT_SENDER")
+CONTACT_RECIPIENT_EMAIL = os.environ.get("CONTACT_RECIPIENT_EMAIL")
+
+mail = Mail(app)
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 SUBMISSIONS_FILE = os.path.join(DATA_DIR, "submissions.csv")
@@ -73,6 +91,30 @@ def save_submission(form):
         ])
 
 
+def send_contact_email(form):
+    """Email the business owner about a new contact form submission.
+
+    Only called when mail credentials are configured (see contact() below),
+    so this assumes app.config["MAIL_USERNAME"] and CONTACT_RECIPIENT_EMAIL
+    are both set.
+    """
+    body_lines = [
+        f"Name: {form.get('name', '').strip()}",
+        f"Email: {form.get('email', '').strip()}",
+        f"Phone: {form.get('phone', '').strip()}",
+        f"Project type: {form.get('project_type', '').strip()}",
+        "",
+        form.get("message", "").strip(),
+    ]
+
+    message = Message(
+        subject="New contact form submission — GKIDesigns website",
+        recipients=[CONTACT_RECIPIENT_EMAIL],
+        body="\n".join(body_lines),
+    )
+    mail.send(message)
+
+
 @app.route("/")
 def home():
     return render_template("index.html", content=CONTENT)
@@ -88,6 +130,15 @@ def contact():
         return redirect(url_for("home") + "#contact")
 
     save_submission(request.form)
+
+    if app.config["MAIL_USERNAME"] and CONTACT_RECIPIENT_EMAIL:
+        try:
+            send_contact_email(request.form)
+        except Exception as e:
+            # Don't let an email/SMTP problem break the visitor's experience —
+            # the submission is already safely saved to the CSV above.
+            print(f"Failed to send contact form email: {e}")
+
     flash("Thanks! Your message has been sent — we'll be in touch soon.", "success")
     return redirect(url_for("home") + "#contact")
 

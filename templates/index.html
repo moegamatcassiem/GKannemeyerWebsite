@@ -130,36 +130,16 @@
   </div>
 </section>
 
-<!-- ============================= TESTIMONIALS ============================= -->
-<section id="testimonials" class="section-light">
-  <div class="container">
-    <div class="section-head reveal">
-      <span class="eyebrow eyebrow-on-light">{{ content.testimonials_eyebrow }}</span>
-      <h2>{{ content.testimonials_heading }}</h2>
-    </div>
-
-    <div class="testimonials-grid">
-      {% for t in content.testimonials %}
-      <div class="testimonial-card reveal">
-        <span class="testimonial-mark">&ldquo;</span>
-        <p class="quote">{{ t.quote }}</p>
-        <div class="testimonial-author">{{ t.author }} &middot; {{ t.project }}</div>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-</section>
-
-{{ macros.joinery_divider("light-to-dark") }}
+{{ macros.joinery_divider("dark-to-light") }}
 
 <!-- ============================= CONTACT ============================= -->
-<section id="contact" class="section-dark">
+<section id="contact" class="section-light">
   <div class="container">
     <div class="contact-grid">
       <div class="reveal">
         <span class="eyebrow">{{ content.contact_eyebrow }}</span>
         <h2 style="font-size: clamp(1.8rem, 3.6vw, 2.4rem); margin-bottom: 1rem;">{{ content.contact_heading }}</h2>
-        <p style="color: var(--color-text-muted-on-dark); margin-bottom: 2rem;">{{ content.contact_subheading }}</p>
+        <p style="color: var(--color-text-muted-on-light); margin-bottom: 2rem;">{{ content.contact_subheading }}</p>
 
         <div class="contact-info-item">
           <span class="label">Phone</span>

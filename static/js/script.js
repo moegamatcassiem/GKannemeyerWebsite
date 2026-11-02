@@ -27,14 +27,25 @@ function updateGallery() {
   const activeFilter = document.querySelector(".filter-btn.is-active");
   const category = activeFilter ? activeFilter.dataset.filter : "all";
   let matchCount = 0;
+  let visiblePosition = 0;
 
   galleryItems.forEach((item) => {
     const matches = category === "all" || item.dataset.category === category;
-    if (matches) {
-      matchCount++;
-      item.classList.toggle("is-hidden", matchCount > visibleCount);
-    } else {
+    if (!matches) {
       item.classList.add("is-hidden");
+      item.classList.remove("is-featured");
+      return;
+    }
+
+    matchCount++;
+    const isVisible = matchCount <= visibleCount;
+    item.classList.toggle("is-hidden", !isVisible);
+
+    if (isVisible) {
+      item.classList.toggle("is-featured", visiblePosition % 3 === 0);
+      visiblePosition++;
+    } else {
+      item.classList.remove("is-featured");
     }
   });
 

@@ -19,6 +19,18 @@ in mind: prefer teaching-clear Python over clever-but-opaque Python when
 making changes, and prefer extending the existing patterns over
 introducing new frameworks/libraries unless asked.
 
+## Commands
+
+```bash
+python3 -m venv venv
+source venv/bin/activate          # on Windows: venv\Scripts\activate
+pip install -r requirements.txt
+python3 app.py                    # runs on http://127.0.0.1:5000, debug mode on (auto-reload)
+```
+
+There is no test suite and no linter/formatter configured in this repo — don't
+assume `pytest`, `flake8`, `black`, etc. are available unless you add them.
+
 ## Stack
 
 - **Backend**: Flask (Python), Jinja2 templates
@@ -34,28 +46,30 @@ introducing new frameworks/libraries unless asked.
 app.py              Flask routes + contact form validation logic.
                      `home()` renders the page. `contact()` validates
                      and saves submissions, then redirects with a
-                     flash message.
+                     flash message. Also loads `.env` via `load_dotenv()`,
+                     configures Flask-Mail from env vars, and (if mail
+                     credentials are set) calls `send_contact_email()`
+                     to notify the business owner of new submissions.
 
 content.py           ALL editable site text lives here as one Python
                      dict called CONTENT. This is intentionally the
                      single place to edit copy without touching HTML.
-                     Currently filled with PLACEHOLDER content (see
-                     "What's still a placeholder" below).
 
-requirements.txt     Flask + gunicorn.
+requirements.txt     Flask, gunicorn, Flask-Mail (contact form email
+                     delivery), python-dotenv (loads `.env` locally).
 
-generate_placeholders.py
-                     One-off script that generated the 6 wood-tone SVG
-                     gallery placeholders. Not needed at runtime — only
-                     re-run this if you want to regenerate placeholders.
-                     Safe to delete once real photos are in use.
+.env.example         Template listing every environment variable the
+                     app reads (SECRET_KEY + Flask-Mail settings).
+                     Tracked in git. Copy to `.env` (gitignored) and
+                     fill in real values — see README for step-by-step
+                     Gmail app-password instructions.
 
 static/css/style.css
                      The entire design system. CSS custom properties
                      (colors, fonts) are defined at the top in :root.
                      Organized in commented sections matching the page
                      sections (hero, about, services, process, gallery,
-                     testimonials, contact, footer).
+                     contact, footer).
 
 static/js/script.js  Three small vanilla JS behaviors: mobile nav
                      toggle, gallery category filtering, and an
@@ -63,14 +77,13 @@ static/js/script.js  Three small vanilla JS behaviors: mobile nav
                      No frameworks, no build step.
 
 static/images/gallery/
-                     6 placeholder SVGs (wood-tone gradients with a
-                     label). Swap for real project photos — see
-                     "What's still a placeholder" below.
+                     Real project photos, organized under
+                     <Kitchen|built-in|cabinet>/ subfolders.
 
 templates/index.html The whole page, broken into sections via HTML
                      comments (HERO, ABOUT, SERVICES, PROCESS, GALLERY,
-                     TESTIMONIALS, CONTACT). Pulls text from `content`
-                     (passed in from app.py) via Jinja.
+                     CONTACT). Pulls text from `content` (passed in from
+                     app.py) via Jinja.
 
 templates/macros.html
                      Two reusable Jinja macros:
@@ -97,7 +110,7 @@ templates/_nav.html, templates/_footer.html
   `<head>` of index.html.
 - **Signature element**: the dovetail/finger-joint divider
   (`joinery_divider` macro) used between Hero→About and
-  Testimonials→Contact. This is intentional and on-brand (real joinery
+  Gallery→Contact. This is intentional and on-brand (real joinery
   shape) — don't replace with a generic wave/blob divider.
 - **Layout**: single scrolling page, sticky nav, alternating dark/light
   section backgrounds, CSS Grid for multi-column layouts (services cards,
@@ -122,22 +135,63 @@ templates/_nav.html, templates/_footer.html
    Build command: `pip install -r requirements.txt`. Start command:
    `gunicorn app:app`.
 
-## What's still a placeholder (the main outstanding work)
+## Current content state
 
-Everything in `content.py` is placeholder text and needs the real
-business details: business name, owner name/quote, phone/email/address,
-years in business, real service descriptions if they differ, and real
-testimonials once available.
+Real business details are filled into `content.py`: business name
+(G.Kannemeyer Interior Design), owner name/quote, phone/WhatsApp/email/
+address, and years in business are all real, not placeholders.
 
-The 6 gallery images in `static/images/gallery/` are generated SVG
-wood-tone swatches, not real photos. Once real project photos exist:
-1. Add them to `static/images/gallery/` (jpg/png fine).
-2. Update each `gallery_items` entry's `"image"` path in `content.py`.
-3. Delete the placeholder SVGs and `generate_placeholders.py`.
+Real project photos are in use, organized under
+`static/images/gallery/<Kitchen|built-in|cabinet>/` and referenced from
+`content.py` as `.png` paths, each with a real `title`. The original
+`.jpeg` duplicates and the wood-tone placeholder SVGs (plus
+`generate_placeholders.py`) have been deleted now that real photos are
+in place.
 
-No email delivery is wired up yet — contact form submissions just save
-to a local CSV. Flask-Mail or a service like SendGrid would be the next
-step if/when the user wants real email notifications instead.
+Email delivery for the contact form is scaffolded but not yet filled
+in with real credentials (added 2026-07-31). `app.py` reads
+`SECRET_KEY` plus `MAIL_SERVER`/`MAIL_PORT`/`MAIL_USE_TLS`/
+`MAIL_USERNAME`/`MAIL_PASSWORD`/`MAIL_DEFAULT_SENDER`/
+`CONTACT_RECIPIENT_EMAIL` from environment variables (via `.env`
+locally, Render dashboard env vars in production) — see
+`.env.example` for the full list. Until the user fills in real Gmail
+(or other SMTP) credentials, the `/contact` route detects that mail
+isn't configured and just skips sending — the CSV save still happens
+every time regardless. **No code changes are needed to turn email on**
+— only `.env` needs real values, following the Gmail app-password
+steps in README.md.
+
+## Deferred / removed features
+
+These were deliberately removed rather than left as placeholders — not
+needed for launch, but easy to bring back the same way if there's real
+content for them later:
+
+- **Testimonials** — removed 2026-07-28. `content.py` had a
+  `testimonials` list with placeholder quotes, and `templates/index.html`
+  had a (commented-out) testimonials `<section>`; both were deleted
+  outright, along with the `.testimonial-*` CSS in `style.css`. To bring
+  it back: add a `testimonials` list to `content.py` (each entry:
+  `quote`, `author`, `project`), re-add a `<section id="testimonials">`
+  block in `index.html` between Gallery and Contact (check git history
+  for the original markup), and restore the matching CSS.
+- **Social links** — `instagram_url` / `facebook_url` were removed from
+  `content.py`. They were never actually wired into any template (no
+  icon or link ever rendered them), so re-adding them is just adding the
+  keys back plus a footer or nav element to display them.
+
+## Outstanding tasks
+
+- **Fill in real `.env` values.** Copy `.env.example` to `.env`, set a
+  real `SECRET_KEY`, and (when the Gmail app password is ready) fill in
+  `MAIL_USERNAME`/`MAIL_PASSWORD`/`MAIL_DEFAULT_SENDER`/
+  `CONTACT_RECIPIENT_EMAIL` — see README.md's "Setting up email
+  delivery" section for the exact steps. **This is the only file that
+  needs editing to turn on real email delivery — `app.py` doesn't need
+  any code changes**, it already reads whatever is in `.env`.
+- **Set the same env vars on Render** before/at deploy time (Render
+  dashboard → service → Environment tab), since `.env` itself is
+  gitignored and never gets uploaded there.
 
 ## Things NOT to change without asking
 
