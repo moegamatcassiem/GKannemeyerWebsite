@@ -137,21 +137,21 @@
   <div class="container">
     <div class="contact-grid">
       <div class="reveal">
-        <span class="eyebrow">{{ content.contact_eyebrow }}</span>
+        <span class="eyebrow eyebrow-on-light">{{ content.contact_eyebrow }}</span>
         <h2 style="font-size: clamp(1.8rem, 3.6vw, 2.4rem); margin-bottom: 1rem;">{{ content.contact_heading }}</h2>
         <p style="color: var(--color-text-muted-on-light); margin-bottom: 2rem;">{{ content.contact_subheading }}</p>
 
         <div class="contact-info-item">
           <span class="label">Phone</span>
-          <span class="value">{{ content.phone }}</span>
+          <a class="value" href="tel:{{ content.phone_link }}">{{ content.phone }}</a>
         </div>
         <div class="contact-info-item">
           <span class="label">WhatsApp</span>
-          <span class="value">{{ content.whatsapp }}</span>
+          <a class="value" href="https://wa.me/{{ content.whatsapp_link }}" target="_blank" rel="noopener">{{ content.whatsapp }}</a>
         </div>
         <div class="contact-info-item">
           <span class="label">Email</span>
-          <span class="value">{{ content.email }}</span>
+          <a class="value" href="mailto:{{ content.email }}">{{ content.email }}</a>
         </div>
         <div class="contact-info-item">
           <span class="label">Based In</span>
@@ -170,28 +170,38 @@
           {% endif %}
         {% endwith %}
 
-        <form action="{{ url_for('contact') }}" method="POST">
+        {# form_data holds the visitor's previous answers if the form had errors
+           (see contact() in app.py), so nothing they typed gets lost. The
+           pattern attributes give instant feedback in the browser; app.py
+           re-checks everything on the server, which is the check that counts. #}
+        <form action="{{ url_for('contact') }}#contact" method="POST">
           <div class="form-row">
             <div class="form-group">
               <label for="name">Name</label>
-              <input type="text" id="name" name="name" required>
+              <input type="text" id="name" name="name" value="{{ form_data.get('name', '') }}" required>
             </div>
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="email" id="email" name="email" required>
+              <input type="email" id="email" name="email" value="{{ form_data.get('email', '') }}" required
+                     pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
+                     aria-describedby="email-hint">
+              <small class="field-hint" id="email-hint">Please enter a full email address, e.g. name@example.com</small>
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
               <label for="phone">Phone (optional)</label>
-              <input type="tel" id="phone" name="phone">
+              <input type="tel" id="phone" name="phone" value="{{ form_data.get('phone', '') }}"
+                     pattern="[0-9+\(\)\s\-]{9,20}"
+                     aria-describedby="phone-hint">
+              <small class="field-hint" id="phone-hint">Numbers only, e.g. 078 123 4567</small>
             </div>
             <div class="form-group">
               <label for="project_type">Project Type</label>
               <select id="project_type" name="project_type">
                 {% for type in content.project_types %}
-                <option value="{{ type }}">{{ type }}</option>
+                <option value="{{ type }}" {% if form_data.get('project_type') == type %}selected{% endif %}>{{ type }}</option>
                 {% endfor %}
               </select>
             </div>
@@ -199,7 +209,7 @@
 
           <div class="form-group">
             <label for="message">Tell us about your project</label>
-            <textarea id="message" name="message" required></textarea>
+            <textarea id="message" name="message" required>{{ form_data.get('message', '') }}</textarea>
           </div>
 
           <button type="submit" class="btn">Send Message</button>

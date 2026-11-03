@@ -635,6 +635,20 @@ section { padding: var(--section-padding) 0; }
   font-size: 1.05rem;
 }
 
+/* Phone / WhatsApp / email are links — keep them looking like the
+   surrounding text, with an underline on hover so they read as tappable. */
+.contact-info-item a.value {
+  color: inherit;
+  text-decoration: none;
+  text-underline-offset: 3px;
+}
+
+.contact-info-item a.value:hover,
+.contact-info-item a.value:focus-visible {
+  color: var(--color-accent-dark);
+  text-decoration: underline;
+}
+
 .flash-messages {
   margin-bottom: 1.5rem;
 }
@@ -698,6 +712,20 @@ section { padding: var(--section-padding) 0; }
 }
 
 .form-group textarea { min-height: 120px; resize: vertical; }
+
+/* Hint under the email/phone fields. Hidden until the browser decides the
+   field is wrong — :user-invalid only kicks in after the visitor has typed
+   in the field or tried to submit, so an empty form never starts out red. */
+.field-hint {
+  display: none;
+  margin-top: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: #B44632;
+}
+
+.form-group input:user-invalid { border-color: #B44632; }
+.form-group input:user-invalid + .field-hint { display: block; }
 
 @media (max-width: 800px) {
   .contact-grid { grid-template-columns: 1fr; }

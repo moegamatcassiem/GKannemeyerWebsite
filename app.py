@@ -5,8 +5,9 @@ Routes:
     GET  /          -> renders the single-page site
     POST /contact    -> validates and saves a contact form submission
 
-Submissions are appended to data/submissions.csv for now. See the
-README for how to swap this out for real email delivery later.
+Every submission is appended to data/submissions.csv. If mail settings
+are filled in (see .env.example and the README), the business owner is
+also emailed a copy of each submission.
 """
 
 import csv
@@ -44,6 +45,13 @@ SUBMISSIONS_FILE = os.path.join(DATA_DIR, "submissions.csv")
 
 EMAIL_PATTERN = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 
+# Phone numbers may only use digits, spaces, "+", "-" and brackets, e.g.
+# "078 395 0283" or "+27 (78) 395-0283". The number of actual digits is
+# checked separately in validate_contact_form().
+PHONE_PATTERN = re.compile(r"^[0-9+()\s-]+$")
+PHONE_MIN_DIGITS = 9
+PHONE_MAX_DIGITS = 15
+
 
 def validate_contact_form(form):
     """Check the submitted form data and return a list of error messages.
@@ -54,6 +62,7 @@ def validate_contact_form(form):
 
     name = form.get("name", "").strip()
     email = form.get("email", "").strip()
+    phone = form.get("phone", "").strip()
     message = form.get("message", "").strip()
 
     if not name:
@@ -63,6 +72,13 @@ def validate_contact_form(form):
         errors.append("Please enter your email.")
     elif not EMAIL_PATTERN.match(email):
         errors.append("That email address doesn't look right.")
+
+    # Phone is optional, so only check it if something was typed in.
+    if phone:
+        digit_count = len(re.sub(r"\D", "", phone))  # count just the digits
+        if (not PHONE_PATTERN.match(phone)
+                or not PHONE_MIN_DIGITS <= digit_count <= PHONE_MAX_DIGITS):
+            errors.append("That phone number doesn't look right.")
 
     if not message:
         errors.append("Tell us a little about your project.")
@@ -107,17 +123,37 @@ def send_contact_email(form):
         form.get("message", "").strip(),
     ]
 
+    # Styled version of the same email, matching the website's look.
+    # Email apps show this one; body_lines above is the plain-text fallback.
+    html = render_template(
+        "email/contact_notification.html",
+        business_name=CONTENT["business_name"],
+        name=form.get("name", "").strip(),
+        email=form.get("email", "").strip(),
+        message=form.get("message", "").strip(),
+        details=[
+            ("Name", form.get("name", "").strip()),
+            ("Email", form.get("email", "").strip()),
+            ("Phone", form.get("phone", "").strip()),
+            ("Project type", form.get("project_type", "").strip()),
+        ],
+    )
+
     message = Message(
         subject="New contact form submission — GKIDesigns website",
         recipients=[CONTACT_RECIPIENT_EMAIL],
+        reply_to=form.get("email", "").strip(),   # Reply goes to the customer
         body="\n".join(body_lines),
+        html=html,
     )
     mail.send(message)
 
 
 @app.route("/")
 def home():
-    return render_template("index.html", content=CONTENT)
+    # form_data is empty here; contact() passes the visitor's answers back
+    # in when the form has errors, so the fields stay filled in.
+    return render_template("index.html", content=CONTENT, form_data={})
 
 
 @app.route("/contact", methods=["POST"])
@@ -127,7 +163,11 @@ def contact():
     if errors:
         for error in errors:
             flash(error, "error")
-        return redirect(url_for("home") + "#contact")
+        # Show the page again with the visitor's answers still filled in,
+        # so they only need to fix the field that was wrong instead of
+        # retyping everything. (The form's action ends in "#contact", so
+        # the browser scrolls straight back down to the form.)
+        return render_template("index.html", content=CONTENT, form_data=request.form)
 
     save_submission(request.form)
 

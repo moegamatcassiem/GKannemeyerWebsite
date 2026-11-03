@@ -4,6 +4,22 @@ This file exists so Claude Code (or any AI assistant working in this repo)
 has full context without the user needing to re-explain the project. Read
 this fully before making changes.
 
+## Always ask before making any change
+
+**Before changing anything in this project, describe exactly what you
+plan to change (which files and what the edits are) and wait for the
+user's OK.** This covers code, content, CSS, templates, this file,
+deleting or renaming files, installing packages, and git operations
+(commits, pushes, untracking files). Reading and inspecting files
+without changing them is fine.
+
+- A general request like "let's fix X" means "propose the changes for
+  X", not "go ahead and make them".
+- Approval covers only what was proposed. If something new comes up
+  partway through, stop and ask again.
+- The user wants to review every change because they're using this
+  project to learn, so explain what each change does.
+
 ## What this is
 
 A single-page Flask website for a custom cabinetry / home renovation
@@ -38,22 +54,43 @@ assume `pytest`, `flake8`, `black`, etc. are available unless you add them.
 - **Data**: contact form submissions are appended to `data/submissions.csv`
   via Python's `csv` module — there is no database
 - **Deployment target**: Render.com as a **Web Service** (not Static Site),
-  using `gunicorn app:app` as the start command
+  using `gunicorn app:app` as the start command. **Render is temporary** —
+  the user plans to move to a different, permanent host once the site is
+  finished (not chosen yet). Keep deployment advice host-agnostic: the
+  final host must run Python/WSGI apps and allow outbound SMTP on port 587.
 
 ## File structure and what each thing does
 
 ```
 app.py              Flask routes + contact form validation logic.
-                     `home()` renders the page. `contact()` validates
-                     and saves submissions, then redirects with a
-                     flash message. Also loads `.env` via `load_dotenv()`,
-                     configures Flask-Mail from env vars, and (if mail
-                     credentials are set) calls `send_contact_email()`
-                     to notify the business owner of new submissions.
+                     `home()` renders the page (with an empty
+                     `form_data`). `contact()` validates the form:
+                     - name, email, message required; email must match
+                       `EMAIL_PATTERN` (name@domain.tld)
+                     - phone optional, but if filled in may only use
+                       digits/spaces/+/-/brackets and must have 9–15
+                       digits (`PHONE_PATTERN`, `PHONE_MIN_DIGITS`,
+                       `PHONE_MAX_DIGITS`)
+                     On errors it re-renders index.html with
+                     `form_data=request.form` so the visitor's answers
+                     stay filled in. On success it saves to CSV, emails
+                     the owner, and redirects to `/#contact` with a
+                     flash message. Also loads `.env` via
+                     `load_dotenv()` and configures Flask-Mail from env
+                     vars. `send_contact_email()` sends both a plain-text
+                     body and a styled HTML version, with `reply_to` set
+                     to the customer's email so the owner's Reply goes
+                     straight to the customer.
 
 content.py           ALL editable site text lives here as one Python
                      dict called CONTENT. This is intentionally the
                      single place to edit copy without touching HTML.
+                     `YEARS_IN_BUSINESS` is a constant above the dict
+                     (used by both the hero stat and the About text).
+                     `phone_link` / `whatsapp_link` are digits-only
+                     copies of the numbers, used for the clickable
+                     tel: and wa.me links — keep them in sync with
+                     `phone` / `whatsapp`.
 
 requirements.txt     Flask, gunicorn, Flask-Mail (contact form email
                      delivery), python-dotenv (loads `.env` locally).
@@ -83,7 +120,16 @@ static/images/gallery/
 templates/index.html The whole page, broken into sections via HTML
                      comments (HERO, ABOUT, SERVICES, PROCESS, GALLERY,
                      CONTACT). Pulls text from `content` (passed in from
-                     app.py) via Jinja.
+                     app.py) via Jinja. The contact form refills fields
+                     from `form_data`, has `pattern` attributes on email
+                     and phone that mirror the server rules, and shows a
+                     `.field-hint` under those fields when invalid.
+
+templates/email/contact_notification.html
+                     HTML version of the "new enquiry" email sent to the
+                     owner, styled to match the site (espresso header,
+                     cream body, mono labels, brass "Reply to" button).
+                     Rendered by `send_contact_email()` in app.py.
 
 templates/macros.html
                      Two reusable Jinja macros:
@@ -134,6 +180,25 @@ templates/_nav.html, templates/_footer.html
    the user got stuck on is a Static Site setting and doesn't apply here).
    Build command: `pip install -r requirements.txt`. Start command:
    `gunicorn app:app`.
+4. **The email template must use inline styles and tables.** Many email
+   apps (Gmail included) strip `<style>` blocks, ignore CSS variables, and
+   don't load web fonts. So `contact_notification.html` has the palette
+   hex values copied in by hand, a table layout, and safe font fallbacks
+   (Georgia / Arial / Consolas). Don't "clean it up" to use style.css or
+   CSS variables — it will break in the owner's inbox. If the site
+   palette changes, update the hex values there too.
+5. **Field hints use `:user-invalid`, not `:invalid`.** `:invalid` would
+   show the red hint/border on the empty required email field as soon as
+   the page loads. `:user-invalid` only applies after the visitor types
+   or tries to submit. There are no `title` attributes on the fields on
+   purpose — the hint was moved out of the hover tooltip and under the
+   field instead.
+6. **Server validation is the real check.** The HTML `pattern`
+   attributes are only for instant feedback (and can be bypassed), so
+   any rule change must be made in `validate_contact_form()` in app.py
+   and mirrored in the `pattern` attribute in index.html.
+7. **User-typed text is escaped by Jinja** in both the re-rendered form
+   and the email template. Don't add `|safe` to anything from the form.
 
 ## Current content state
 
@@ -143,23 +208,41 @@ address, and years in business are all real, not placeholders.
 
 Real project photos are in use, organized under
 `static/images/gallery/<Kitchen|built-in|cabinet>/` and referenced from
-`content.py` as `.png` paths, each with a real `title`. The original
+`content.py` as `.jpg` paths, each with a real `title`. The original
 `.jpeg` duplicates and the wood-tone placeholder SVGs (plus
 `generate_placeholders.py`) have been deleted now that real photos are
 in place.
 
-Email delivery for the contact form is scaffolded but not yet filled
-in with real credentials (added 2026-07-31). `app.py` reads
-`SECRET_KEY` plus `MAIL_SERVER`/`MAIL_PORT`/`MAIL_USE_TLS`/
-`MAIL_USERNAME`/`MAIL_PASSWORD`/`MAIL_DEFAULT_SENDER`/
-`CONTACT_RECIPIENT_EMAIL` from environment variables (via `.env`
-locally, Render dashboard env vars in production) — see
-`.env.example` for the full list. Until the user fills in real Gmail
-(or other SMTP) credentials, the `/contact` route detects that mail
-isn't configured and just skips sending — the CSV save still happens
-every time regardless. **No code changes are needed to turn email on**
-— only `.env` needs real values, following the Gmail app-password
-steps in README.md.
+The gallery photos were converted from PNG to compressed JPEG
+(quality 82, longest side capped at 1600px) on 2026-11-02, which cut
+the gallery from ~25.8 MB to ~3.5 MB. When adding new photos, save
+them the same way (JPEG, ≤1600px longest side) to keep the page fast
+on mobile. The two unused PNGs (`built-in (2).png`, `built-in.png`)
+were deleted rather than converted.
+
+Email delivery for the contact form is **working and tested locally**
+(2026-11-03). The local `.env` has real values: notifications are sent
+from a dedicated Gmail account (set in `MAIL_USERNAME`, via an app
+password) with the display name "GK Interior Designs Website", to the
+owner's inbox set in `CONTACT_RECIPIENT_EMAIL`. Reply-To is the
+customer, and the styled HTML email was confirmed to render correctly.
+`app.py` reads `SECRET_KEY` plus `MAIL_SERVER`/`MAIL_PORT`/
+`MAIL_USE_TLS`/`MAIL_USERNAME`/`MAIL_PASSWORD`/`MAIL_DEFAULT_SENDER`/
+`CONTACT_RECIPIENT_EMAIL` from environment variables (`.env` locally,
+the host's env var settings in production) — see `.env.example`. If
+`MAIL_USERNAME` or `CONTACT_RECIPIENT_EMAIL` is missing, sending is
+skipped. The CSV save always happens either way, and an SMTP failure is
+only printed, never shown to the visitor.
+
+Note: on Render the filesystem is temporary, so `data/submissions.csv`
+is wiped on each deploy/restart there. Email is the reliable record in
+production. On a host with a persistent disk, the CSV becomes a useful
+backup.
+
+The contact details on the page are clickable (tel:, wa.me, mailto:).
+The first notification email landed in the owner's spam folder, which is
+normal for a brand-new Gmail sender. The owner should mark it "Not spam"
+and add the sender to their contacts.
 
 ## Deferred / removed features
 
@@ -182,16 +265,19 @@ content for them later:
 
 ## Outstanding tasks
 
-- **Fill in real `.env` values.** Copy `.env.example` to `.env`, set a
-  real `SECRET_KEY`, and (when the Gmail app password is ready) fill in
-  `MAIL_USERNAME`/`MAIL_PASSWORD`/`MAIL_DEFAULT_SENDER`/
-  `CONTACT_RECIPIENT_EMAIL` — see README.md's "Setting up email
-  delivery" section for the exact steps. **This is the only file that
-  needs editing to turn on real email delivery — `app.py` doesn't need
-  any code changes**, it already reads whatever is in `.env`.
-- **Set the same env vars on Render** before/at deploy time (Render
-  dashboard → service → Environment tab), since `.env` itself is
-  gitignored and never gets uploaded there.
+- **Commit and push** the 2026-11-02/03 work (small content fixes, JPG
+  images, styled email, form validation/hints, this file).
+- **Set the 8 env vars on Render** (dashboard → service → Environment
+  tab), since `.env` is gitignored and never gets uploaded. Use a freshly
+  generated `SECRET_KEY` (`python -c "import secrets;
+  print(secrets.token_hex(32))"`) — the local one is short/hand-typed.
+  Then submit a test enquiry on the live URL and confirm the email
+  arrives.
+- **Choose the permanent host** and update the deployment notes in this
+  file (Stack section and Known issue #3) once it's decided.
+- **Optional:** `GET /contact` (e.g. pressing Enter in the address bar
+  after a form error, when the URL is `/contact#contact`) currently
+  returns 405 Method Not Allowed. It could redirect to `/` instead.
 
 ## Things NOT to change without asking
 
